@@ -1,5 +1,4 @@
 # troll-tower-battle
-# troll-tower-battle
 
 `troll-tower-battle` は、ブラウザで遊べるタワーバトルゲームのプロトタイプです。
 
