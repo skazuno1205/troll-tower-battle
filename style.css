@@ -263,11 +263,18 @@
     }
     .canvas-stats {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr)) auto;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-areas:
+        "stack best"
+        "reset best";
       gap: 8px;
       width: fit-content;
       pointer-events: auto;
+      align-items: stretch;
     }
+
+    .canvas-stats .card:nth-of-type(1) { grid-area: stack; }
+    .canvas-stats .card:nth-of-type(2) { grid-area: best; }
 
     .canvas-top-hud .card {
       min-height: 54px;
@@ -290,6 +297,7 @@
     }
 
     .canvas-top-hud #restartBtn {
+      grid-area: reset;
       pointer-events: auto;
       min-width: 72px;
       height: 54px;
@@ -310,6 +318,7 @@
     .overlay {
       position: absolute;
       inset: 0;
+      z-index: 30;
       display: grid;
       place-items: center;
       background: rgba(10, 7, 19, 0.42);
@@ -463,6 +472,10 @@
         right: 10px;
       }
       .canvas-stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-template-areas:
+          "stack best"
+          "reset best";
         width: fit-content;
       }
       .canvas-top-hud .card {
