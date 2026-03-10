@@ -234,10 +234,11 @@
 
     .canvas-stats {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) 58px;
       gap: 8px;
-      max-width: min(260px, calc(100% - 88px));
+      width: min(336px, 100%);
       pointer-events: auto;
+      align-items: stretch;
     }
 
     .canvas-top-hud .card {
@@ -254,12 +255,18 @@
 
     .canvas-top-hud #restartBtn {
       pointer-events: auto;
-      min-width: 76px;
-      padding: 10px 12px;
+      width: 58px;
+      height: 58px;
+      padding: 0;
+      border-radius: 16px;
+      font-size: 30px;
+      line-height: 1;
       background: rgba(22, 14, 42, 0.72);
       border-color: rgba(255,255,255,0.2);
       box-shadow: 0 8px 20px rgba(0,0,0,0.28);
       backdrop-filter: blur(8px);
+      display: grid;
+      place-items: center;
     }
 
     .overlay {
@@ -392,15 +399,17 @@
         right: 10px;
       }
       .canvas-stats {
-        max-width: calc(100% - 84px);
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) 52px;
+        width: min(320px, 100%);
       }
       .canvas-top-hud .card {
         min-height: 54px;
         padding: 7px 8px;
       }
       .canvas-top-hud #restartBtn {
-        min-width: 72px;
-        padding: 9px 10px;
+        width: 52px;
+        height: 52px;
+        font-size: 27px;
       }
       .canvas-rotate-controls {
         bottom: 14px;
