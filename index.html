@@ -27,6 +27,7 @@
         </div>
       </div>
       <div id="itemOverlay" class="item-overlay">
+        <div class="next-mini-box"><img id="nextPreview" alt="next troll preview" /></div>
         <button id="itemBtn" class="item-canvas-btn" disabled>🧲<span id="itemCount" class="item-badge">0</span></button>
         <div class="item-progress-ring-wrap">
           <svg class="item-progress-ring" viewBox="0 0 36 36">
@@ -52,14 +53,7 @@
         </div>
       </div>
     </section>
-
-    <section class="footer-bar">
-      <div>
-        <div class="next-label">次のトロール</div>
-        <div id="message" class="message">ステージ中央を狙って、押して離してドロップ！</div>
-      </div>
-      <div class="next-box"><img id="nextPreview" alt="next troll preview" /></div>
-    </section>
+    <div id="message" class="sr-only" aria-live="polite">ステージ中央を狙って、押して離してドロップ！</div>
   </div>
 
   <script src="game.js"></script>

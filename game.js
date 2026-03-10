@@ -27,6 +27,7 @@
       const WORLD_HEIGHT = 760;
       const STAGE_WIDTH = 228;
       const MOBILE_BREAKPOINT = 640;
+      const GAME_VIEW_SCALE = 0.85;
       const STAGE_MARGIN = 0;
       const GROUND_OFFSET = 68;
       const DEFAULT_TROLL_HEIGHT = 84;
@@ -336,7 +337,8 @@
         const horizontalPadding = mobile ? 20 : 24;
         const availableWidth = Math.max(280, appRect.width - horizontalPadding);
         const desktopCap = Math.min(viewportW - horizontalPadding, 860);
-        const displayWidth = mobile ? availableWidth : Math.max(availableWidth, Math.min(desktopCap, availableWidth));
+        const baseDisplayWidth = mobile ? availableWidth : Math.max(availableWidth, Math.min(desktopCap, availableWidth));
+        const displayWidth = baseDisplayWidth * GAME_VIEW_SCALE;
         const scale = Math.max(0.1, displayWidth / WORLD_WIDTH);
         const displayHeight = WORLD_HEIGHT * scale;
 
@@ -646,7 +648,7 @@
       function setMessage(text, seconds = 1.6) {
         state.message = text;
         state.messageTimer = seconds;
-        messageEl.textContent = text;
+        if (messageEl) messageEl.textContent = text;
       }
 
       function updateHud() {
@@ -669,7 +671,7 @@
       }
 
       function refreshNextPreview() {
-        nextPreview.src = (state.nextAsset || state.currentAsset || state.assets[0]).src;
+        if (nextPreview) nextPreview.src = (state.nextAsset || state.currentAsset || state.assets[0]).src;
       }
 
       function updateDropAvailability() {
@@ -690,6 +692,8 @@
       }
 
       function restartGame(hideIntro = true) {
+        const dialogEl = overlay.querySelector('.dialog');
+        if (dialogEl) dialogEl.classList.remove('gameover-dialog');
         state.bodies.length = 0;
         state.particles.length = 0;
         state.running = hideIntro;
@@ -806,11 +810,15 @@
         state.running = false;
         state.gameOver = true;
         const screenshot = captureGameOverScreenshot();
-        overlay.querySelector('.dialog').innerHTML = `
+        const dialogEl = overlay.querySelector('.dialog');
+        dialogEl.classList.add('gameover-dialog');
+        dialogEl.innerHTML = `
           <h2>ゲームオーバー</h2>
           <p>${reason}</p>
-          <div class="big">積んだ数: ${state.stackCount}</div>
-          <p>ベスト記録: ${state.bestCount}</p>
+          <div class="gameover-stats">
+            <p class="gameover-score">積んだ数: <strong>${state.stackCount}</strong></p>
+            <p class="gameover-best">ベスト記録: <strong>${state.bestCount}</strong></p>
+          </div>
           ${screenshot ? `<img class="screenshot-preview" src="${screenshot}" alt="ゲームオーバー時のステージ全体スクリーンショット" />` : ''}
           <div class="actions">
             <button id="saveShotBtn">スクショ保存</button>
@@ -872,7 +880,7 @@
         const gravity = getGravity();
         if (state.messageTimer > 0) {
           state.messageTimer -= dt;
-          if (state.messageTimer <= 0) messageEl.textContent = state.message;
+          if (state.messageTimer <= 0 && messageEl) messageEl.textContent = state.message;
         }
         for (const body of state.bodies) {
           body.timeSinceDrop += dt;
@@ -1487,6 +1495,8 @@
 
       startBtn.addEventListener('click', () => {
         overlay.classList.remove('show');
+        const dialogEl = overlay.querySelector('.dialog');
+        if (dialogEl) dialogEl.classList.remove('gameover-dialog');
         restartGame(true);
       });
       function handleRotateButton(evt, delta) {

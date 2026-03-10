@@ -38,6 +38,20 @@
       padding: max(12px, env(safe-area-inset-top)) 12px max(14px, env(safe-area-inset-bottom)) 12px;
     }
 
+
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
     .hud, .footer-bar {
       background: linear-gradient(180deg, rgba(255,255,255,0.11), rgba(255,255,255,0.07));
       border: 1px solid rgba(255,255,255,0.10);
@@ -167,7 +181,7 @@
         linear-gradient(180deg, #302252 0%, #21143b 52%, #170d2d 100%);
       border: 1px solid rgba(255,255,255,0.08);
       min-width: 100%;
-      height: min(78vh, 1200px);
+      height: min(66vh, 1020px);
     }
 
     #game {
@@ -346,6 +360,28 @@
       margin-top: 6px;
     }
 
+    .dialog.gameover-dialog .gameover-stats {
+      margin: 8px 0 10px;
+      display: grid;
+      gap: 4px;
+      text-align: left;
+      color: var(--text);
+    }
+
+    .dialog.gameover-dialog .gameover-score,
+    .dialog.gameover-dialog .gameover-best {
+      margin: 0;
+      font-size: 16px;
+      line-height: 1.35;
+    }
+
+    .dialog.gameover-dialog .gameover-score strong,
+    .dialog.gameover-dialog .gameover-best strong {
+      font-size: 22px;
+      color: var(--accent);
+    }
+
+
     .footer-bar {
       padding: 10px 12px;
       display: grid;
@@ -432,12 +468,36 @@
         border-radius: 18px;
         font-size: 26px;
       }
+      .next-mini-box { width: 52px; height: 52px; border-radius: 14px; }
+      .next-mini-box img { width: 38px; height: 38px; }
+    }
+
+
+
+    .next-mini-box {
+      width: 58px;
+      height: 58px;
+      border-radius: 16px;
+      background: rgba(20,12,40,0.78);
+      border: 2px solid rgba(255,255,255,0.16);
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.45);
+      backdrop-filter: blur(8px);
+    }
+
+    .next-mini-box img {
+      width: 44px;
+      height: 44px;
+      object-fit: contain;
+      filter: drop-shadow(0 8px 12px rgba(0,0,0,0.25));
     }
 
     /* ===== In-canvas item UI ===== */
     .item-overlay {
       position: absolute;
-      top: 16px;
+      top: 12px;
       right: 16px;
       display: flex;
       flex-direction: column;
