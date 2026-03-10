@@ -33,7 +33,7 @@
       const DEFAULT_TROLL_HEIGHT = 84;
       const SIZE_REDUCTION = 0.8;
       const ROTATION_STEP = Math.PI / 12;
-      const SPAWN_SCREEN_Y = 164;
+      const SPAWN_SCREEN_Y = 188;
       const STAGE_TRAY_CENTER_DROP = 7;
       const STAGE_TRAY_RIM_LIFT = 4;
       const STAGE_TRAY_CENTER_FLAT_RATIO = 0.34;
