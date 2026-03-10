@@ -61,9 +61,9 @@
     }
 
     .hud {
-      padding: 8px 10px;
+      padding: 6px 10px;
       display: grid;
-      gap: 6px;
+      gap: 0;
     }
 
     .title-row {
@@ -72,21 +72,24 @@
       justify-content: space-between;
       gap: 8px;
       flex-wrap: nowrap;
-      min-height: 42px;
+      min-height: 0;
+      padding: 4px 2px;
     }
 
     .title {
       font-size: clamp(20px, 4.2vw, 30px);
       font-weight: 900;
       letter-spacing: 0.02em;
+      line-height: 1.1;
       text-shadow: 0 4px 18px rgba(0,0,0,0.35);
     }
 
     .badge {
-      padding: 6px 10px;
+      padding: 5px 10px;
       border-radius: 999px;
       background: rgba(255,255,255,0.09);
       font-size: 12px;
+      line-height: 1;
       color: var(--sub);
       white-space: nowrap;
     }
