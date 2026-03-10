@@ -108,6 +108,16 @@
           { name: "トロール 14", src: "images/troll_14.png", kind: "light", desiredH: 88, density: 0.92, restitution: 0.01, friction: 1.08 },
           { name: "トロール 15", src: "images/troll_15.png", kind: "light", desiredH: 82, density: 0.92, restitution: 0.01, friction: 1.08 },
           { name: "トロール 16", src: "images/troll_16.png", kind: "light", desiredH: 110, minWidth: 34, density: 0.92, restitution: 0.01, friction: 1.08 },
+          { name: "トロール 17", src: "images/troll_17.png", kind: "light", desiredH: 88, density: 0.92, restitution: 0.01, friction: 1.08 },
+          { name: "トロール 18", src: "images/troll_18.png", kind: "light", desiredH: 88, density: 0.92, restitution: 0.01, friction: 1.08 },
+          { name: "トロール 19", src: "images/troll_19.png", kind: "light", desiredH: 88, density: 0.92, restitution: 0.01, friction: 1.08 },
+          { name: "トロール 20", src: "images/troll_20.png", kind: "light", desiredH: 88, density: 0.92, restitution: 0.01, friction: 1.08 },
+          { name: "トロール 21", src: "images/troll_21.png", kind: "light", desiredH: 88, density: 0.92, restitution: 0.01, friction: 1.08 },
+          { name: "トロール 22", src: "images/troll_22.png", kind: "light", desiredH: 88, density: 0.92, restitution: 0.01, friction: 1.08 },
+          { name: "トロール 23", src: "images/troll_23.png", kind: "light", desiredH: 88, density: 0.92, restitution: 0.01, friction: 1.08 },
+          { name: "トロール 24", src: "images/troll_24.png", kind: "light", desiredH: 88, density: 0.92, restitution: 0.01, friction: 1.08 },
+          { name: "トロール 25", src: "images/troll_25.png", kind: "light", desiredH: 88, density: 0.92, restitution: 0.01, friction: 1.08 },
+          { name: "トロール 26", src: "images/troll_26.png", kind: "light", desiredH: 88, density: 0.92, restitution: 0.01, friction: 1.08 },
         ];
       }
 
