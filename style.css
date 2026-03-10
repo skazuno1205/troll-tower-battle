@@ -78,7 +78,7 @@
 
     .stats {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-columns: repeat(2, minmax(0, 1fr)) auto;
       gap: 8px;
     }
 
@@ -233,9 +233,9 @@
     }
     .canvas-stats {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-columns: repeat(2, minmax(0, 1fr)) auto;
       gap: 8px;
-      width: 150px;
+      width: fit-content;
       pointer-events: auto;
     }
 
@@ -255,17 +255,18 @@
 
     .canvas-top-hud .card strong {
       margin-top: 4px;
-      font-size: 40px;
+      font-size: 32px;
       line-height: 1;
     }
 
     .canvas-top-hud #restartBtn {
       pointer-events: auto;
-      width: 64px;
+      min-width: 82px;
       height: 64px;
-      padding: 0;
+      padding: 0 10px;
       border-radius: 18px;
-      font-size: 34px;
+      font-size: 22px;
+      font-weight: 800;
       line-height: 1;
       background: rgba(22, 14, 42, 0.72);
       border-color: rgba(255,255,255,0.2);
@@ -273,6 +274,7 @@
       backdrop-filter: blur(8px);
       display: grid;
       place-items: center;
+      white-space: nowrap;
     }
 
     .overlay {
@@ -391,7 +393,7 @@
         padding-left: 10px;
         padding-right: 10px;
       }
-      .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .stats { grid-template-columns: repeat(2, minmax(0, 1fr)) auto; }
       .footer-bar { grid-template-columns: 1fr 66px; }
       .next-box { width: 66px; height: 66px; }
       .next-box img { width: 50px; height: 50px; }
@@ -405,19 +407,20 @@
         right: 10px;
       }
       .canvas-stats {
-        width: 144px;
+        width: fit-content;
       }
       .canvas-top-hud .card {
         min-height: 54px;
         padding: 7px 8px;
       }
       .canvas-top-hud .card strong {
-        font-size: 30px;
+        font-size: 26px;
       }
       .canvas-top-hud #restartBtn {
-        width: 60px;
-        height: 60px;
-        font-size: 32px;
+        min-width: 76px;
+        height: 56px;
+        font-size: 18px;
+        padding: 0 8px;
       }
       .canvas-rotate-controls {
         bottom: 14px;
