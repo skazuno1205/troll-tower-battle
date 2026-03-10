@@ -106,6 +106,8 @@
           { name: "トロール 12", src: "images/troll_12.png", kind: "light", desiredH: 88, density: 0.92, restitution: 0.01, friction: 1.08 },
           { name: "トロール 13", src: "images/troll_13.png", kind: "light", desiredH: 88, density: 0.92, restitution: 0.01, friction: 1.08 },
           { name: "トロール 14", src: "images/troll_14.png", kind: "light", desiredH: 88, density: 0.92, restitution: 0.01, friction: 1.08 },
+          { name: "トロール 15", src: "images/troll_15.png", kind: "light", desiredH: 82, density: 0.92, restitution: 0.01, friction: 1.08 },
+          { name: "トロール 16", src: "images/troll_16.png", kind: "light", desiredH: 110, minWidth: 34, density: 0.92, restitution: 0.01, friction: 1.08 },
         ];
       }
 
@@ -118,9 +120,9 @@
         });
       }
 
-      async function prepareSprite({ name, src, kind, desiredH, density, restitution, friction }) {
+      async function prepareSprite({ name, src, kind, desiredH, minWidth = 60, minHeight = 80, density, restitution, friction }) {
         const img = await loadImage(src);
-        const collider = buildAlphaCircles(img, desiredH);
+        const collider = buildAlphaCircles(img, desiredH, { minWidth, minHeight });
         return {
           name,
           src,
@@ -136,10 +138,10 @@
         };
       }
 
-      function buildAlphaCircles(img, targetH) {
+      function buildAlphaCircles(img, targetH, { minWidth = 60, minHeight = 80 } = {}) {
         const scale = targetH / img.height;
-        const width = Math.max(60, Math.round(img.width * scale));
-        const height = Math.max(80, Math.round(img.height * scale));
+        const width = Math.max(minWidth, Math.round(img.width * scale));
+        const height = Math.max(minHeight, Math.round(img.height * scale));
         const off = document.createElement('canvas');
         off.width = width;
         off.height = height;
@@ -1578,7 +1580,10 @@
       async function init() {
         resize();
         const defs = defaultTrollSvgs();
-        state.assets = await Promise.all(defs.map(prepareSprite));
+        const prepared = await Promise.allSettled(defs.map(prepareSprite));
+        state.assets = prepared.filter(r => r.status === 'fulfilled').map(r => r.value);
+        prepared.filter(r => r.status === 'rejected').forEach(r => console.warn('sprite load skipped:', r.reason));
+        if (!state.assets.length) throw new Error('No sprite assets could be loaded.');
         startRound();
         updateDropAvailability();
         requestAnimationFrame(loop);
