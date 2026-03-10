@@ -217,6 +217,51 @@
     .canvas-rotate-controls button span {
       transform: translateY(-1px);
     }
+
+
+    .canvas-top-hud {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      right: 12px;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 10px;
+      z-index: 5;
+      pointer-events: none;
+    }
+
+    .canvas-stats {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+      max-width: min(260px, calc(100% - 88px));
+      pointer-events: auto;
+    }
+
+    .canvas-top-hud .card {
+      min-height: 58px;
+      padding: 8px 10px;
+      background: rgba(22, 14, 42, 0.72);
+      border-color: rgba(255,255,255,0.16);
+      backdrop-filter: blur(8px);
+    }
+
+    .canvas-top-hud .card strong {
+      font-size: clamp(17px, 3.8vw, 24px);
+    }
+
+    .canvas-top-hud #restartBtn {
+      pointer-events: auto;
+      min-width: 76px;
+      padding: 10px 12px;
+      background: rgba(22, 14, 42, 0.72);
+      border-color: rgba(255,255,255,0.2);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.28);
+      backdrop-filter: blur(8px);
+    }
+
     .overlay {
       position: absolute;
       inset: 0;
@@ -339,6 +384,23 @@
       .next-box img { width: 50px; height: 50px; }
       .canvas-wrap {
         border-radius: 22px;
+      }
+
+      .canvas-top-hud {
+        top: 10px;
+        left: 10px;
+        right: 10px;
+      }
+      .canvas-stats {
+        max-width: calc(100% - 84px);
+      }
+      .canvas-top-hud .card {
+        min-height: 54px;
+        padding: 7px 8px;
+      }
+      .canvas-top-hud #restartBtn {
+        min-width: 72px;
+        padding: 9px 10px;
       }
       .canvas-rotate-controls {
         bottom: 14px;

@@ -32,7 +32,7 @@
       const DEFAULT_TROLL_HEIGHT = 84;
       const SIZE_REDUCTION = 0.8;
       const ROTATION_STEP = Math.PI / 12;
-      const SPAWN_SCREEN_Y = 126;
+      const SPAWN_SCREEN_Y = 164;
       const STAGE_TRAY_CENTER_DROP = 7;
       const STAGE_TRAY_RIM_LIFT = 4;
       const STAGE_TRAY_CENTER_FLAT_RATIO = 0.34;
@@ -350,7 +350,7 @@
         state.stageWidth = STAGE_WIDTH;
         state.stageLeft = (state.width - state.stageWidth) * 0.5;
         state.stageRight = state.stageLeft + state.stageWidth;
-        state.spawnY = 126;
+        state.spawnY = SPAWN_SCREEN_Y;
         const bounds = getCurrentDropBounds();
         state.pointerX = clamp(state.pointerX, bounds.min, bounds.max);
       }

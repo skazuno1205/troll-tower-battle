@@ -14,19 +14,18 @@
         <span id="appVersion" class="badge" aria-label="version">v0.1.0</span>
       </div>
 
-      <div class="stats">
-        <div class="card"><span>積んだ数</span><strong id="stackCount">0</strong></div>
-        <div class="card"><span>ベスト</span><strong id="bestCount">0</strong></div>
-      </div>
-
-      <div class="controls">
-        <button id="dropBtn" class="primary">ドロップ</button>
-        <button id="restartBtn">やり直し</button>
-      </div>
+      <button id="dropBtn" class="primary" hidden>ドロップ</button>
     </section>
 
     <section class="canvas-wrap">
       <canvas id="game"></canvas>
+      <div class="canvas-top-hud" aria-label="ゲーム情報">
+        <div class="canvas-stats">
+          <div class="card"><span>積んだ数</span><strong id="stackCount">0</strong></div>
+          <div class="card"><span>ベスト</span><strong id="bestCount">0</strong></div>
+        </div>
+        <button id="restartBtn">やり直し</button>
+      </div>
       <div id="itemOverlay" class="item-overlay">
         <button id="itemBtn" class="item-canvas-btn" disabled>🧲<span id="itemCount" class="item-badge">0</span></button>
         <div class="item-progress-ring-wrap">
