@@ -16,6 +16,7 @@
       const itemCountEl = document.getElementById('itemCount');
       const itemProgressRing = document.getElementById('itemProgressRing');
       const canvasWrap = canvas.parentElement;
+      const versionEl = document.getElementById('appVersion');
 
       const DPR = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
       const STORAGE_KEY = 'trollTowerBattleBest';
@@ -58,9 +59,6 @@
         accumulator: 0,
         stackCount: 0,
         bestCount: Number(localStorage.getItem(STORAGE_KEY) || 0),
-        windTimer: 0,
-        windForce: 0,
-        lastWindAt: 0,
         message: 'ステージ中央を狙って、押して離してドロップ！',
         messageTimer: 0,
         spawnTick: 0,
@@ -80,6 +78,21 @@
       };
 
       bestCountEl.textContent = String(state.bestCount);
+
+      async function loadVersion() {
+        if (!versionEl) return;
+        try {
+          const response = await fetch('version.json', { cache: 'no-store' });
+          if (!response.ok) throw new Error(`HTTP ${response.status}`);
+          const data = await response.json();
+          const version = typeof data.version === 'string' ? data.version.trim() : '';
+          if (version) {
+            versionEl.textContent = `v${version}`;
+            return;
+          }
+        } catch (_) {}
+        versionEl.textContent = 'vdev';
+      }
 
       function svgToDataUrl(svg) {
         return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
@@ -682,9 +695,6 @@
         state.running = hideIntro;
         state.gameOver = false;
         state.stackCount = 0;
-        state.windTimer = 0;
-        state.windForce = 0;
-        state.lastWindAt = 0;
         state.pointerX = state.width / 2;
         state.cameraY = 0;
         state.dropLocked = false;
@@ -706,13 +716,6 @@
         body.vx = 0;
         body.vy = 0;
         body.av = 0;
-
-        if (state.stackCount - state.lastWindAt >= 4) {
-          state.lastWindAt = state.stackCount;
-          state.windTimer = 3.2;
-          state.windForce = (Math.random() < 0.5 ? -1 : 1) * (34 + Math.random() * 22);
-          setMessage(state.windForce > 0 ? '右風注意！ タワーがゆらぐ！' : '左風注意！ タワーがゆらぐ！', 2.0);
-        }
 
         if (body.id === state.activeDropId) {
           unlockNextPiece();
@@ -871,11 +874,6 @@
           state.messageTimer -= dt;
           if (state.messageTimer <= 0) messageEl.textContent = state.message;
         }
-        if (state.windTimer > 0) {
-          state.windTimer = Math.max(0, state.windTimer - dt);
-          if (state.windTimer <= 0) state.windForce = 0;
-        }
-
         for (const body of state.bodies) {
           body.timeSinceDrop += dt;
           if (body.sleep || body.frozenByItem) {
@@ -890,9 +888,6 @@
           const touchingStageNow = isTouchingStage(body);
 
 
-          if (state.windTimer > 0 && !touchingStageNow) {
-            body.vx += (state.windForce / body.mass) * dt;
-          }
           if (body.hitSomething) {
             body.vx *= 0.88;
             body.av *= 0.82;
@@ -1538,6 +1533,7 @@
 
       async function init() {
         resize();
+        await loadVersion();
         const defs = defaultTrollSvgs();
         const prepared = await Promise.allSettled(defs.map(prepareSprite));
         state.assets = prepared.filter(r => r.status === 'fulfilled').map(r => r.value);
