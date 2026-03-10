@@ -231,35 +231,41 @@
       z-index: 5;
       pointer-events: none;
     }
-
     .canvas-stats {
       display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) 58px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 8px;
-      width: min(336px, 100%);
+      width: 150px;
       pointer-events: auto;
-      align-items: stretch;
     }
 
     .canvas-top-hud .card {
-      min-height: 58px;
+      min-height: 64px;
       padding: 8px 10px;
       background: rgba(22, 14, 42, 0.72);
-      border-color: rgba(255,255,255,0.16);
+      border: 1px solid rgba(255,255,255,0.14);
+      border-radius: 16px;
       backdrop-filter: blur(8px);
     }
 
+    .canvas-top-hud .card span {
+      font-size: 11px;
+      color: rgba(220,206,214,0.95);
+    }
+
     .canvas-top-hud .card strong {
-      font-size: clamp(17px, 3.8vw, 24px);
+      margin-top: 4px;
+      font-size: 40px;
+      line-height: 1;
     }
 
     .canvas-top-hud #restartBtn {
       pointer-events: auto;
-      width: 58px;
-      height: 58px;
+      width: 64px;
+      height: 64px;
       padding: 0;
-      border-radius: 16px;
-      font-size: 30px;
+      border-radius: 18px;
+      font-size: 34px;
       line-height: 1;
       background: rgba(22, 14, 42, 0.72);
       border-color: rgba(255,255,255,0.2);
@@ -399,17 +405,19 @@
         right: 10px;
       }
       .canvas-stats {
-        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) 52px;
-        width: min(320px, 100%);
+        width: 144px;
       }
       .canvas-top-hud .card {
         min-height: 54px;
         padding: 7px 8px;
       }
+      .canvas-top-hud .card strong {
+        font-size: 30px;
+      }
       .canvas-top-hud #restartBtn {
-        width: 52px;
-        height: 52px;
-        font-size: 27px;
+        width: 60px;
+        height: 60px;
+        font-size: 32px;
       }
       .canvas-rotate-controls {
         bottom: 14px;
