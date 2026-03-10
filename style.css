@@ -376,8 +376,9 @@
 
     .screenshot-preview {
       width: min(100%, 280px);
-      max-height: min(32vh, 260px);
+      max-height: min(34vh, 280px);
       object-fit: cover;
+      object-position: center 88%;
       border-radius: 18px;
       display: block;
       margin: 14px auto 4px;
