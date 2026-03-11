@@ -27,12 +27,13 @@
       const WORLD_HEIGHT = 760;
       const STAGE_WIDTH = 228;
       const MOBILE_BREAKPOINT = 640;
-      const STAGE_MARGIN = 26;
+      const GAME_VIEW_SCALE = 0.85;
+      const STAGE_MARGIN = 0;
       const GROUND_OFFSET = 68;
       const DEFAULT_TROLL_HEIGHT = 84;
       const SIZE_REDUCTION = 0.8;
       const ROTATION_STEP = Math.PI / 12;
-      const SPAWN_SCREEN_Y = 126;
+      const SPAWN_SCREEN_Y = 188;
       const STAGE_TRAY_CENTER_DROP = 7;
       const STAGE_TRAY_RIM_LIFT = 4;
       const STAGE_TRAY_CENTER_FLAT_RATIO = 0.34;
@@ -336,7 +337,8 @@
         const horizontalPadding = mobile ? 20 : 24;
         const availableWidth = Math.max(280, appRect.width - horizontalPadding);
         const desktopCap = Math.min(viewportW - horizontalPadding, 860);
-        const displayWidth = mobile ? availableWidth : Math.max(availableWidth, Math.min(desktopCap, availableWidth));
+        const baseDisplayWidth = mobile ? availableWidth : Math.max(availableWidth, Math.min(desktopCap, availableWidth));
+        const displayWidth = baseDisplayWidth * GAME_VIEW_SCALE;
         const scale = Math.max(0.1, displayWidth / WORLD_WIDTH);
         const displayHeight = WORLD_HEIGHT * scale;
 
@@ -350,7 +352,7 @@
         state.stageWidth = STAGE_WIDTH;
         state.stageLeft = (state.width - state.stageWidth) * 0.5;
         state.stageRight = state.stageLeft + state.stageWidth;
-        state.spawnY = 126;
+        state.spawnY = SPAWN_SCREEN_Y;
         const bounds = getCurrentDropBounds();
         state.pointerX = clamp(state.pointerX, bounds.min, bounds.max);
       }
@@ -646,7 +648,7 @@
       function setMessage(text, seconds = 1.6) {
         state.message = text;
         state.messageTimer = seconds;
-        messageEl.textContent = text;
+        if (messageEl) messageEl.textContent = text;
       }
 
       function updateHud() {
@@ -669,7 +671,7 @@
       }
 
       function refreshNextPreview() {
-        nextPreview.src = (state.nextAsset || state.currentAsset || state.assets[0]).src;
+        if (nextPreview) nextPreview.src = (state.nextAsset || state.currentAsset || state.assets[0]).src;
       }
 
       function updateDropAvailability() {
@@ -690,6 +692,9 @@
       }
 
       function restartGame(hideIntro = true) {
+        const dialogEl = overlay.querySelector('.dialog');
+        if (dialogEl) dialogEl.classList.remove('gameover-dialog');
+        overlay.classList.remove('gameover-mode');
         state.bodies.length = 0;
         state.particles.length = 0;
         state.running = hideIntro;
@@ -785,6 +790,15 @@
         return state.gameOverScreenshot;
       }
 
+
+      function captureCanvasFallback() {
+        try {
+          return canvas.toDataURL('image/png');
+        } catch (_) {
+          return null;
+        }
+      }
+
       function downloadGameOverScreenshot() {
         const shot = state.gameOverScreenshot || captureGameOverScreenshot();
         if (!shot) {
@@ -801,16 +815,20 @@
         setMessage('ステージ全体のスクショを保存しました。', 1.3);
       }
 
-      function triggerGameOver(reason = 'ステージの外へ落下しました。') {
+      function triggerGameOver(reason = 'トロールが落下しました') {
         if (state.gameOver) return;
         state.running = false;
         state.gameOver = true;
-        const screenshot = captureGameOverScreenshot();
-        overlay.querySelector('.dialog').innerHTML = `
+        const screenshot = captureGameOverScreenshot() || captureCanvasFallback();
+        const dialogEl = overlay.querySelector('.dialog');
+        dialogEl.classList.add('gameover-dialog');
+        dialogEl.innerHTML = `
           <h2>ゲームオーバー</h2>
           <p>${reason}</p>
-          <div class="big">積んだ数: ${state.stackCount}</div>
-          <p>ベスト記録: ${state.bestCount}</p>
+          <div class="gameover-stats">
+            <p class="gameover-score">積んだ数: <strong>${state.stackCount}</strong></p>
+            <p class="gameover-best">ベスト記録: <strong>${state.bestCount}</strong></p>
+          </div>
           ${screenshot ? `<img class="screenshot-preview" src="${screenshot}" alt="ゲームオーバー時のステージ全体スクリーンショット" />` : ''}
           <div class="actions">
             <button id="saveShotBtn">スクショ保存</button>
@@ -819,6 +837,7 @@
           <p class="screenshot-note">ゲームオーバー時点のステージ全体を、記録入りPNGで保存できます。</p>
         `;
         updateDropAvailability();
+        overlay.classList.add('gameover-mode');
         overlay.classList.add('show');
         const saveShotBtn = overlay.querySelector('#saveShotBtn');
         if (saveShotBtn) saveShotBtn.addEventListener('click', downloadGameOverScreenshot, { once: false });
@@ -872,7 +891,7 @@
         const gravity = getGravity();
         if (state.messageTimer > 0) {
           state.messageTimer -= dt;
-          if (state.messageTimer <= 0) messageEl.textContent = state.message;
+          if (state.messageTimer <= 0 && messageEl) messageEl.textContent = state.message;
         }
         for (const body of state.bodies) {
           body.timeSinceDrop += dt;
@@ -1019,7 +1038,7 @@
           const fellBelowStage = ext.minY > state.groundY + 10;
           const outOfView = ext.minY > state.height + 8 || ext.maxX < -8 || ext.minX > state.width + 8;
           if ((offStage && fellBelowStage) || outOfView) {
-            triggerGameOver('トロールがステージの端から落下しました。');
+            triggerGameOver('トロールが落下しました');
             break;
           }
         }
@@ -1487,6 +1506,9 @@
 
       startBtn.addEventListener('click', () => {
         overlay.classList.remove('show');
+        const dialogEl = overlay.querySelector('.dialog');
+        if (dialogEl) dialogEl.classList.remove('gameover-dialog');
+        overlay.classList.remove('gameover-mode');
         restartGame(true);
       });
       function handleRotateButton(evt, delta) {
@@ -1552,6 +1574,7 @@
           <p>アセットの初期化に失敗しました。</p>
           <div class="actions"><button id="reloadBtn" class="primary">再読み込み</button></div>
         `;
+        overlay.classList.remove('gameover-mode');
         overlay.classList.add('show');
         overlay.querySelector('#reloadBtn').addEventListener('click', () => location.reload(), { once: true });
       });

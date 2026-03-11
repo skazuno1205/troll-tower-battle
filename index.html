@@ -11,23 +11,26 @@
     <section class="hud">
       <div class="title-row">
         <div class="title">トロールタワーバトル</div>
-        <span id="appVersion" class="badge" aria-label="version">v0.1.0</span>
+        <span id="appVersion" class="badge" aria-label="version">v0.1.1</span>
       </div>
 
-      <div class="stats">
-        <div class="card"><span>積んだ数</span><strong id="stackCount">0</strong></div>
-        <div class="card"><span>ベスト</span><strong id="bestCount">0</strong></div>
-      </div>
-
-      <div class="controls">
-        <button id="dropBtn" class="primary">ドロップ</button>
-        <button id="restartBtn">やり直し</button>
-      </div>
+      <button id="dropBtn" class="primary" hidden>ドロップ</button>
     </section>
 
     <section class="canvas-wrap">
       <canvas id="game"></canvas>
+      <div class="canvas-top-hud" aria-label="ゲーム情報">
+        <div class="canvas-stats">
+          <div class="card"><span>積んだ数</span><strong id="stackCount">0</strong></div>
+          <div class="card"><span>ベスト</span><strong id="bestCount">0</strong></div>
+          <button id="restartBtn" aria-label="Reset" title="Reset">Reset</button>
+        </div>
+      </div>
       <div id="itemOverlay" class="item-overlay">
+        <div class="next-mini-wrap" aria-label="次のトロール">
+          <div class="next-mini-label">NEXT</div>
+          <div class="next-mini-box"><img id="nextPreview" alt="next troll preview" /></div>
+        </div>
         <button id="itemBtn" class="item-canvas-btn" disabled>🧲<span id="itemCount" class="item-badge">0</span></button>
         <div class="item-progress-ring-wrap">
           <svg class="item-progress-ring" viewBox="0 0 36 36">
@@ -43,24 +46,17 @@
       <div id="overlay" class="overlay show">
         <div class="dialog">
           <h2>準備OK？</h2>
-          <p>ランダムなトロール画像を落として、どこまで高く積めるか挑戦！</p>
-          <p>落とす前は左右移動に加えて回転もできます。ゲーム画面を押して、離した瞬間にドロップ！ 小さくなったトロールで高積みを狙おう！</p>
-          <p>ステージサイズは固定。端末が変わっても落下距離は同じです。</p>
-          <p>ステージの端から落ちたらゲームオーバー！</p>
+          <p>ステージにトロールを落として、どれだけたくさん積めるか挑戦！</p>
+          <p>落とす前は左右移動に加えて回転もできます。ゲーム画面を押して、離した瞬間にドロップ！</p>
+          <p>だんだんプルプルしてくるトロール達をうまくコントロールしよう。</p>
+          <p>ステージからトロールが落下するとゲームオーバーです。</p>
           <div class="actions">
             <button id="startBtn" class="primary">スタート</button>
           </div>
         </div>
       </div>
     </section>
-
-    <section class="footer-bar">
-      <div>
-        <div class="next-label">次のトロール</div>
-        <div id="message" class="message">ステージ中央を狙って、押して離してドロップ！</div>
-      </div>
-      <div class="next-box"><img id="nextPreview" alt="next troll preview" /></div>
-    </section>
+    <div id="message" class="sr-only" aria-live="polite">ステージ中央を狙って、押して離してドロップ！</div>
   </div>
 
   <script src="game.js"></script>
