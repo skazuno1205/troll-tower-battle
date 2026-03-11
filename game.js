@@ -694,6 +694,7 @@
       function restartGame(hideIntro = true) {
         const dialogEl = overlay.querySelector('.dialog');
         if (dialogEl) dialogEl.classList.remove('gameover-dialog');
+        overlay.classList.remove('gameover-mode');
         state.bodies.length = 0;
         state.particles.length = 0;
         state.running = hideIntro;
@@ -805,7 +806,7 @@
         setMessage('ステージ全体のスクショを保存しました。', 1.3);
       }
 
-      function triggerGameOver(reason = 'ステージの外へ落下しました。') {
+      function triggerGameOver(reason = 'トロールが落下しました') {
         if (state.gameOver) return;
         state.running = false;
         state.gameOver = true;
@@ -827,6 +828,7 @@
           <p class="screenshot-note">ゲームオーバー時点のステージ全体を、記録入りPNGで保存できます。</p>
         `;
         updateDropAvailability();
+        overlay.classList.add('gameover-mode');
         overlay.classList.add('show');
         const saveShotBtn = overlay.querySelector('#saveShotBtn');
         if (saveShotBtn) saveShotBtn.addEventListener('click', downloadGameOverScreenshot, { once: false });
@@ -1027,7 +1029,7 @@
           const fellBelowStage = ext.minY > state.groundY + 10;
           const outOfView = ext.minY > state.height + 8 || ext.maxX < -8 || ext.minX > state.width + 8;
           if ((offStage && fellBelowStage) || outOfView) {
-            triggerGameOver('トロールがステージの端から落下しました。');
+            triggerGameOver('トロールが落下しました');
             break;
           }
         }
@@ -1497,6 +1499,7 @@
         overlay.classList.remove('show');
         const dialogEl = overlay.querySelector('.dialog');
         if (dialogEl) dialogEl.classList.remove('gameover-dialog');
+        overlay.classList.remove('gameover-mode');
         restartGame(true);
       });
       function handleRotateButton(evt, delta) {
@@ -1562,6 +1565,7 @@
           <p>アセットの初期化に失敗しました。</p>
           <div class="actions"><button id="reloadBtn" class="primary">再読み込み</button></div>
         `;
+        overlay.classList.remove('gameover-mode');
         overlay.classList.add('show');
         overlay.querySelector('#reloadBtn').addEventListener('click', () => location.reload(), { once: true });
       });

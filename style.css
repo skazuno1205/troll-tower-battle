@@ -320,15 +320,19 @@
       inset: 0;
       z-index: 30;
       display: grid;
-      align-items: start;
+      align-items: center;
       justify-items: center;
       padding: max(14px, env(safe-area-inset-top)) 10px max(14px, env(safe-area-inset-bottom)) 10px;
-      overflow-y: auto;
       background: rgba(10, 7, 19, 0.42);
       backdrop-filter: blur(6px);
       opacity: 0;
       pointer-events: none;
       transition: opacity 0.25s ease;
+    }
+
+    .overlay.gameover-mode {
+      align-items: start;
+      overflow-y: auto;
     }
 
     .overlay.show {
